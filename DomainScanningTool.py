@@ -147,6 +147,11 @@ def main():
     if len(resultFile) > 0:
         result = open(resultFile, 'a')
 
+    verbose = False
+    v = input('Do you want to show unavailable domains? [y/N]: ')
+    if v.lower() == 'y':
+        verbose = True
+
     input('All data collected. Press ENTER to start scanning. ')
 
     for line in open(dictFile):
@@ -157,6 +162,10 @@ def main():
                 print(domain + ' is available. ')
                 if len(resultFile) > 0:
                     result.write(domain + ' is available. \n')
+            elif verbose:
+                print(domain + ' is not available. ')
+                if len(resultFile) > 0:
+                    result.write(domain + ' is not available. \n')
 
     print('Scanning finished. ')
     if len(resultFile) > 0:

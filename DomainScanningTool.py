@@ -9,7 +9,7 @@ DEFAULT_SERVER = '1.1.1.1'
 DEFAULT_PORT = 53
 AUTHOR = 'dynos01'
 EMAIL = 'i@dyn.im'
-VERSION = '1.0'
+VERSION = '1.0.3'
 
 def send(message, server, port):
     """

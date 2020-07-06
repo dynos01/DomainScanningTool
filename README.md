@@ -21,7 +21,7 @@ cd DomainScanningTool
 python DomainScanningTool.py
 ```
 
-Server addresses are like these: `8.8.8.8`, `1.1.1.1, 2001:4860:4860::8888`
+Server addresses are like these: `8.8.8.8:53`, `1.1.1.1:53, [2001:4860:4860::8888]:53`
 
 Suffixes are like these: `com`, `com, net` (e.g. without the dot)
 

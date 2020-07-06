@@ -110,17 +110,28 @@ def main():
     print('Domain scanning tool version %s' % VERSION)
     print('Author: %s <%s>' % (AUTHOR, EMAIL))
 
-    server = input('Please input DNS server address (IPv4 or IPv6) [%s]: ' % DEFAULT_SERVER)
-    if len(server) == 0:
-        server = DEFAULT_SERVER
-    port = input('Please input DNS server port number [%i]: ' % DEFAULT_PORT)
-    if len(port) == 0:
-        port = DEFAULT_PORT
+    server = []
+    port = []
+    dns = input('Please input a list of DNS servers (IPv4 or IPv6), which will be used to check against: ')
+    if len(dns) == 0:
+        server.append(DEFAULT_SERVER)
+        port.append(DEFAULT_PORT)
     else:
-        port = int(port)
-    if not validateServer(server, port):
-        print('Invalid DNS server.')
-        return
+        dns = dns.split(',')
+        for i, item in enumerate(dns):
+            item = item.strip()
+            if '[' in item:
+                s = item.split(']')[0][1:]
+                p = item.split(']')[1][1:]
+            else:
+                s = item.split(':')[0]
+                p = item.split(':')[1]
+            p = int(p)
+            if not validateServer(s, p):
+                print('Invalid DNS server.')
+                return
+            server.append(s)
+            port.append(p)
 
     tld = input('Please input the suffixes to be scanned. If you want to scan multiple suffixes at once, please use commas to separate the list. \n')
     tld = tld.split(',')
@@ -141,7 +152,8 @@ def main():
     for line in open(dictFile):
         for suffix in tld:
             domain = line.strip() + '.' + suffix
-            if not check(domain, server, port):
+            i = random.choice(range(len(server)))
+            if not check(domain, server[i], port[i]):
                 print(domain + ' is available. ')
                 if len(resultFile) > 0:
                     result.write(domain + ' is available. \n')
